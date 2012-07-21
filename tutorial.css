@@ -97,7 +97,7 @@ div#footer{
 
 .mct #header 
 {
-	background-image:url(metro_graphic.png);
+	background-image:url(images/metro_graphic.png);
 	background-color:#fff;
 	min-height:100px;
 	padding:10px 0;
@@ -129,7 +129,7 @@ div#footer{
 }
 
 .mct #navigation a.active {
-	background-image:url(module_dot.png);
+	background-image:url(images/module_dot.png);
 	background-position:50% 28px;
 	background-repeat:no-repeat;
 }
@@ -245,22 +245,17 @@ div#footer{
 .mct img.info-icon {
 	width:50px;
 	height:50px;
-	padding:0;
+	padding-right:10px;
 }
 .mct ol.reveal {
 	list-style-type:none;
-}
-.mct ol.reveal strong {
-	display:inline-block;
-	float:left;
-	padding:10px 0 10px 10px;
 }
 .mct ol.reveal li img {
 	cursor:pointer;
 	float:left;
 }
 .mct ol.reveal li {
-	padding:0;
+	padding:10px;
 	margin-bottom:10px;
 	background-color:#ccc;
 	color:#fff;
