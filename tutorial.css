@@ -13,6 +13,7 @@ beige: 993366*/
 article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary
 {
 	display:block;
+	clear:both;
 }
 body,ul,ol,li,h1,h2,h3,h4,h5,h6
 {
@@ -203,7 +204,7 @@ div#footer{
 	text-decoration:underline;
 }
 
-.mct p
+.mct p, .mct blockquote
 {
 	margin:0;
 	padding-bottom:25px;
@@ -237,14 +238,19 @@ div#footer{
 	display:none !important;
 }
 
+
 /*special items*/
+.mct span.citation {
+	display:block;
+	margin-left:40px;
+}
 .mct .video {
 	/*border:10px solid #993366;*/
 	margin-bottom:20px;
 }
 .mct img.info-icon {
-	width:50px;
-	height:50px;
+	width:70px;
+	height:70px;
 	padding-right:10px;
 }
 .mct ol.reveal {
@@ -290,6 +296,36 @@ border-bottom-right-radius: 50px;
 }
 .mct ol.reveal li.r5 {
 	background-color:#9fbed7;
+}
+.mct div.article-image {
+	display:inline;
+	float:right;
+	overflow:hidden;
+	width:280px;
+	height:400px;
+	-webkit-border-top-right-radius: 100px;
+	-webkit-border-bottom-left-radius: 100px;
+	-moz-border-radius-topright: 100px;
+	-moz-border-radius-bottomleft: 100px;
+	border-top-right-radius: 100px;
+	border-bottom-left-radius: 100px;
+}
+.mct img.feature {
+	width: 35%;
+	margin-left:15%;
+	padding-bottom:10px;
+}
+
+.mct img.gumballs {
+	width: 50%;
+	margin-left:10%;
+	padding-bottom:10px;
+}
+
+.mct img.gumballs2 {
+	width: 35%;
+	margin-left:15%;
+	padding-bottom:10px;
 }
 
 /*media queries*/
