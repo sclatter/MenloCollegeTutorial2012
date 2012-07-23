@@ -1,4 +1,10 @@
 YUI.add('tutorial', function(Y) {
+	/*constants*/
+	CORRECT_MARK = '<img src="images/checkmark.gif" alt"checkmark"/>';
+	INCORRECT_MARK = '<img src="images/xmark.gif" alt="xmark"/>';
+	CORRECT_MSG = 'Correct!';
+	INCORRECT_MSG = 'Wrong. Try again.';
+	
 	Y.Navigation = function() {
 		this.header = Y.one('#header');
 		this.bar = Y.one('#navigation');
@@ -129,6 +135,33 @@ YUI.add('tutorial', function(Y) {
 			Y.Pagination.manageArticles();
 		}
 	};
+	Y.DropQuiz = function(formNode) {
+		this.form = formNode;
+		this.init();
+	};
+	Y.DropQuiz.prototype = {
+		init : function() {
+			this.form.on("change", this.handleChange, this);
+		}, 
+		handleChange : function(e) {
+			//check the value and if it matches a valid value
+			if (this.containsValue(e.target.get('value'),e.target.getAttribute('data-valid').split('|'))) {
+				e.target.next('div.scoring').set('innerHTML', CORRECT_MARK + CORRECT_MSG);
+			}
+			else {
+				e.target.next('div.scoring').set('innerHTML', INCORRECT_MARK + INCORRECT_MSG);
+			}
+		}, 
+		containsValue : function(needle, haystack) {
+			var l = haystack.length;
+			for (var i = 0; i < l; i++) {
+				if(haystack[i] === needle) {
+					return true;
+				}
+			}
+			return false;
+		}
+	};
     
 }, '0.0.1', { requires: ['node','event','history-hash'] });
 
@@ -136,4 +169,5 @@ YUI().use('tutorial', function(Y) {
     	var tmp = new Y.Navigation();
 		var tmp2 = new Y.Revealer();
 		var tmp3 = new Y.Pagination();
+		var tmp4 = new Y.DropQuiz(Y.one('#evalForm'));
 });

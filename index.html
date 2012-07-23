@@ -493,11 +493,11 @@ of databases for you to use.</strong></li>
 				<article>
 					<h2>Ask yourself about your information source</h2>
 					<ol class="reveal">
-						<li class="r1"><img src="images/m4r1.gif" class="info-icon" alt="C"/><strong>Is it CURRENT?</strong> When was it published or posted? Does this date influence its usefulness?</li>
-						<li class="r2"><img src="images/m4r2.gif" class="info-icon" alt="R"/><strong>Is it RELEVANT?</strong>Does it relate to your topic or answer your question? Is the language level appropriate (e.g., not too technical?)</li>
-						<li class="r3"><img src="images/m4r3-4.gif" class="info-icon" alt="A"/><strong>Is it AUTHORITATIVE?</strong> Who is the author, publisher, or sponsor? What are the author's credentials?</li>
-						<li class="r4"><img src="images/m4r3-4.gif" class="info-icon" alt="A"/><strong>Is is ACCURATE?</strong> Do the authors offer evidence to support claims they make? Has the information been peer-reviewed?</li>
-						<li class="r5"><img src="images/m4r5.gif" class="info-icon" alt="P"/><strong>What is its PURPOSE?</strong> Does it information, sell, entertain, or persuade? Is it objective? Is it facts, opinion, or propoganda?</li>
+						<li class="r1"><img src="images/m4r1.gif" class="info-icon" alt="C"/><strong><em>Is it CURRENT?</em> When was it published or posted? Does this date influence its usefulness?</strong></li>
+						<li class="r2"><img src="images/m4r2.gif" class="info-icon" alt="R"/><strong><em>Is it RELEVANT?</em> Does it relate to your topic or answer your question? Is the language level appropriate (e.g., not too technical?)</strong></li>
+						<li class="r3"><img src="images/m4r3-4.gif" class="info-icon" alt="A"/><strong><em>Is it AUTHORITATIVE?</em> Who is the author, publisher, or sponsor? What are the author's credentials?</strong></li>
+						<li class="r4"><img src="images/m4r3-4.gif" class="info-icon" alt="A"/><strong><em>Is is ACCURATE?</em> Do the authors offer evidence to support claims they make? Has the information been peer-reviewed?</strong></li>
+						<li class="r5"><img src="images/m4r5.gif" class="info-icon" alt="P"/><strong><em>What is its PURPOSE?</em> Does it information, sell, entertain, or persuade? Is it objective? Is it facts, opinion, or propoganda?</strong></li>
 					</ol>
 					<p><cite>CRAAP acronym &amp; concept credit: CSU Chico, Meriam Library</cite></p>
 					<p>If your information source does not meet these criteria, it might be CRAAP! In that case, you may want to find another source.</p>
@@ -520,7 +520,7 @@ of databases for you to use.</strong></li>
 					<p>Some of the criteria you use to scan an article can also help you evaluate books. Let’s begin with the title and title page.
 A book’s full title appears on the title page.</p>
 					<h4>Full title</h4>
-					<p><cite>The Great American Stickup: How Reagan Republicans and Clinton Democrats Enriched Wall Street While Mugging Main StreetUsing</cite></p>
+					<p><cite>The Great American Stickup: How Reagan Republicans and Clinton Democrats Enriched Wall Street While Mugging Main Street</cite></p>
 				</article>
 				<article>
 				<h3>Verso page</h3>
@@ -560,22 +560,24 @@ The name of the publisher or sponsor can help you evaluate possible bias or conf
 					<h3>Try it!</h3>
 					<img src="images/mod4slide11gumballs.png" alt="index and biblio" class="gumballs2"/>
 					<form id="evalForm" name="evalForm">
-					<p><label for="q1">You found a journal article studying the incidence of concussions among NFL players. In what section can you learn the details about how they recruited study participants?</label></p>
-					<p><select name="q1" idea="q1">
-						<option selected data-valid="false">Choose one</option>
-						<option data-valid="false">abstract</option>
-						<option data-valid="false">discussion</option>
-						<option data-valid="true">methods</option>
-						<option data-valid="false">introduction</option>
-					</select></p>
-					<p><label for="q2">You found a book about how microfinance projects can help poor people in developing countries. Now you want to know whether Latin America is mentioned. Which section(s) will help you find out?</label></p>
-					<p><select name="q2" idea="q2">
-						<option selected data-valid="false">Choose one</option>
-						<option data-valid="false">title page</option>
-						<option data-valid="true">table of contents</option>
-						<option data-valid="false">verso page</option>
-						<option data-valid="false">index</option>
-					</select></p>
+					<label for="q1">You found a journal article studying the incidence of concussions among NFL players. In what section can you learn the details about how they recruited study participants?</label>
+					<select name="q1" id="q1" data-valid="methods">
+						<option selected>Choose one</option>
+						<option>abstract</option>
+						<option>discussion</option>
+						<option>methods</option>
+						<option>introduction</option>
+					</select>
+					<div class="scoring"></div>
+					<label for="q2">You found a book about how microfinance projects can help poor people in developing countries. Now you want to know whether Latin America is mentioned. Which section(s) will help you find out?</label>
+					<select name="q2" id="q2" data-valid="table of contents">
+						<option selected>Choose one</option>
+						<option>title page</option>
+						<option>table of contents</option>
+						<option>verso page</option>
+						<option>index</option>
+					</select>
+					<div class="scoring"></div>
 					</form>
 				</article>
 				<article>

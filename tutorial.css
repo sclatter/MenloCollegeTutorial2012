@@ -154,6 +154,8 @@ div#footer{
 }
 .mct h2, .mct h3, .mct h4, .mct h5, .mct h6 {
 	padding:0 0 20px 0;
+	max-width:600px;
+	width:80%;
 }
 
 .mct h1
@@ -213,6 +215,18 @@ div#footer{
 	width:80%;
 }
 
+
+
+.mct cite {
+	background-color:#9fbed7;
+	color:white;
+	display:inline-block;
+	padding:5px 10px;
+	font-size:80%;
+	font-style:normal;
+	font-weight:bold;
+}
+
 .mct ul, .mct ol
 {
 	list-style-position:outside;
@@ -238,8 +252,29 @@ div#footer{
 	display:none !important;
 }
 
+.mct form, .mct select, .mct label, .mct input {
+	clear:both;
+	display:block;
+	padding:20px 0;
+	width:80%;
+	max-width:600px;
+}
+
+.mct select {
+	display:inline-block;
+	width:200px;
+	color:#fff;
+	background:transparent none;
+	background-color:#4a6d8c;
+	padding:5px;
+	font-size:120%;
+}
+
 
 /*special items*/
+.mct form div.scoring {
+	float:right;
+}
 .mct span.citation {
 	display:block;
 	margin-left:40px;
