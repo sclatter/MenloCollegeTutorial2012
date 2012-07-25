@@ -87,9 +87,9 @@ YUI.add('tutorial', function(Y) {
 			if (artLength > 1) {
 				Y.Pagination.pagination.removeClass('hide');
 				for (i = 0; i < artLength; i++) {
-					allArticles.item(i).addClass('hide');
+					allArticles.item(i).addClass('page-hide');
 					allArticles.item(i).removeClass('active');
-					allArticles.item(myActive).removeClass('hide');
+					allArticles.item(myActive).removeClass('page-hide');
 					allArticles.item(myActive).addClass('active');
 					allArticles.item(i).setAttribute('data-page', i);
 				}
