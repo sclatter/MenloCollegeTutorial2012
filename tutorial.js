@@ -1,9 +1,9 @@
 YUI.add('tutorial', function(Y) {
 	/*constants*/
-	CORRECT_MARK = '<img src="images/checkmark.gif" alt"checkmark"/>';
-	INCORRECT_MARK = '<img src="images/xmark.gif" alt="xmark"/>';
+	CORRECT_MARK = '<span class="checkmark">&#x2714;</span>';
+	INCORRECT_MARK = '<span class="xmark">&#x2718;</span>';
 	CORRECT_MSG = 'Correct!';
-	INCORRECT_MSG = 'Wrong. Try again.';
+	INCORRECT_MSG = 'Wrong.';
 	
 	Y.Navigation = function() {
 		this.header = Y.one('#header');
@@ -162,6 +162,34 @@ YUI.add('tutorial', function(Y) {
 			return false;
 		}
 	};
+	Y.TableToggle = function(tableController) {
+		this.controller = tableController;
+		this.table = this.controller.get('nextSibling').get('nextSibling');
+		this.init();
+	};
+	Y.TableToggle.prototype = {
+		init : function(){
+			this.controller.on('click', this.handleClick, this);
+		}, 
+		handleClick : function(e) {
+			if (e.target.get('tagName') === 'A') {
+				e.preventDefault();
+				this.hideAllRows();
+				this.showRow(e.target.getAttribute('data-item'));
+			}
+			else {
+				return;
+			}
+		},
+		hideAllRows : function(){
+			this.table.all('tr.inner-row').addClass('ghost');
+			this.table.all('img').addClass('hide');
+		}, 
+		showRow : function(rowItem){
+			this.table.all('tr.inner-row').item(rowItem).removeClass('ghost');
+			this.table.all('img').removeClass('hide');
+		}
+	};
     
 }, '0.0.1', { requires: ['node','event','history-hash'] });
 
@@ -169,5 +197,12 @@ YUI().use('tutorial', function(Y) {
     	var tmp = new Y.Navigation();
 		var tmp2 = new Y.Revealer();
 		var tmp3 = new Y.Pagination();
-		var tmp4 = new Y.DropQuiz(Y.one('#evalForm'));
+		var tmp4 = Y.all('form');
+		tmp4.each(function(form){
+			var els = new Y.DropQuiz(form);
+		});
+		var tmp5 = Y.all('ul.table-driver');
+		tmp5.each(function(el){
+			var els = new Y.TableToggle(el);
+		});
 });
