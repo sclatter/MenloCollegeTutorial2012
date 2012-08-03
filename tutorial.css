@@ -218,10 +218,6 @@ div#footer{
 	width:80%;
 }
 
-.mct ul.table-driver {
-	float:left;
-}
-
 .mct table {
 	border:1px solid #993366;
 	font-family:"Verdana";
@@ -301,7 +297,22 @@ div#footer{
 .mct .page-hide {
 	display:none !important;
 }
-
+/*form stuff*/
+.mct form label {
+	font-weight:bold;
+}
+.mct form span.error, .mct form span.correct {
+	display:block;
+	clear:both;
+}
+.mct form span.error {
+	color:#993366;
+	font-style:italic;
+}
+.mct form span.correct {
+	color:#9fa25e;
+	font-style:italic;
+}
 .mct form, .mct select, .mct label, .mct input {
 	clear:both;
 	float:none;
@@ -309,6 +320,22 @@ div#footer{
 	padding:10px 0;
 	width:80%;
 	max-width:600px;
+}
+
+.mct form ul {
+	list-style-type:none;
+}
+
+.mct input {
+	padding:0;
+}
+
+.mct input[type="checkbox"], .mct input[type="radio"] {
+	display:inline;
+	width:auto;
+}
+.mct input[type="submit"] {
+	width:auto;
 }
 
 .mct select {
