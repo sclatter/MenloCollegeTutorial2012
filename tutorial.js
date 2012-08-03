@@ -197,7 +197,7 @@ YUI().use('tutorial', function(Y) {
     	var tmp = new Y.Navigation();
 		var tmp2 = new Y.Revealer();
 		var tmp3 = new Y.Pagination();
-		var tmp4 = Y.all('form');
+		var tmp4 = Y.all('form.exercise');
 		tmp4.each(function(form){
 			var els = new Y.DropQuiz(form);
 		});
