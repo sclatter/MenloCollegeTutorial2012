@@ -190,6 +190,116 @@ YUI.add('tutorial', function(Y) {
 			this.table.all('img').removeClass('hide');
 		}
 	};
+	Y.SectionQuiz = function(form) {
+		this.form = form;
+		this.submitBtn = this.form.one('input[type=submit]');
+		this.numCorrect = [];
+		this.numRequired = this.form.getAttribute('data-required');
+		this.formName = this.form.getAttribute('data-name');
+		this.email = this.form.one('input[type=email]');
+		this.name = this.form.one('input[type=text]');
+		this.questionEls = this.form.all('ul');
+		this.init();
+	};
+	Y.SectionQuiz.prototype = {
+		init: function() {
+			this.submitBtn.on('click', this.validateForm, this);
+		}, 
+		validateForm: function(e) {
+			var emailValid = this.emailIsValid(),
+			nameValid = this.nameIsValid(), 
+			allAnswered = this.allQuestionsAnswered();
+			e.halt();
+			if (emailValid && nameValid && allAnswered) {
+				this.gradeQuiz();
+			}
+			else {
+				if (!emailValid) {
+					alert("Please enter a valid email address for credit.");
+				}
+				if (!nameValid) {
+					alert("Please enter your name for credit.");
+				}
+				if (!allAnswered) {
+					alert("Please answer all questions before submitting.");
+				}
+			}
+		}, 
+		emailIsValid: function() {
+			 return (this.email.get('value') !== '' && 
+			 this.email.get('value').indexOf('.') !== -1 && 
+			 this.email.get('value').indexOf('@') !== -1);
+		}, 
+		nameIsValid: function(){
+			return (this.email.get('value') !== '');
+		}, 
+		allQuestionsAnswered: function(){
+			var numQuestions = this.questionEls.size(), 
+			questionsAnswered = [];
+			this.questionEls.each(function(el){
+				var boxes = el.all('input[type=checkbox]:checked').size();
+				if (boxes > 0) {
+					questionsAnswered.push(boxes);
+				}
+			}, questionsAnswered);
+			return (questionsAnswered.length === numQuestions);
+		}, 
+		gradeQuiz: function() {
+			var numCorrect = this.numCorrect;
+			this.questionEls.each(function(el){
+				var checkBoxes = el.all('input[type=checkbox]'), 
+				questionIsCorrect = true, 
+				correctPrompt = el.previous('span.correct');
+				 
+				for (i=0, x=checkBoxes.size(); i<x; i++) {
+					var numTrue = 1;
+					/*go through the checked boxes first*/
+					if (checkBoxes.item(i).get('checked')) {
+						//incorrect item checked, point it out and mark question wrong
+						if (checkBoxes.item(i).getAttribute('data-c') === "false") {
+							checkBoxes.item(i).next('span.error').removeClass('hide');
+							questionIsCorrect = false;
+						}
+					}
+					/*then go through the unchecked boxes*/
+					else {
+						//they missed one that should have been checked, mark question wrong
+						if (checkBoxes.item(i).getAttribute('data-c') === "true") {
+							questionIsCorrect = false;
+						}
+					}
+					/*count number of true boxes for multiple answer*/
+					if (checkBoxes.item(i).getAttribute('data-c') === "true") {
+						numTrue++;
+					}
+					
+				}
+				
+				/*iterate through correctly checked on incomplete multiple answer and reveal hint*/
+				if (numTrue > 1) {
+					for (i=0, x=checkBoxes.size(); i<x; i++) {
+						if (checkBoxes.item(i).get('checked') && 
+						checkBoxes.item(i).getAttribute('data-c') === "true" &&
+						!questionIsCorrect) {
+							checkBoxes.item(i).next('span.error').removeClass('hide');
+						}
+					}
+				}
+				
+				//if question is correct, display congrats, increment numCorrect
+				if (questionIsCorrect) {
+					correctPrompt.removeClass('hide');
+					numCorrect.push(el.one('input').get('name'));
+				}
+				return numCorrect;
+				
+			}, numCorrect);
+			this.numCorrect = numCorrect;
+			console.log("number correct: " + this.numCorrect.length);
+			console.log("correct items: " + this.numCorrect);
+			console.log("number required: " + this.numRequired);
+		}
+	};
     
 }, '0.0.1', { requires: ['node','event','history-hash'] });
 
@@ -204,5 +314,9 @@ YUI().use('tutorial', function(Y) {
 		var tmp5 = Y.all('ul.table-driver');
 		tmp5.each(function(el){
 			var els = new Y.TableToggle(el);
+		});
+		var tmp6 = Y.all('form.quiz');
+		tmp6.each(function(form){
+			var els = new Y.SectionQuiz(form);
 		});
 });
