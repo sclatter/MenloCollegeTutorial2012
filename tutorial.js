@@ -16,6 +16,10 @@ YUI.add('tutorial', function(Y) {
 			this.bar.addClass('slide-hide');
 			this.navButton.on('click', this.toggleNav, this);
 			this.bar.on('click', this.handleClick, this);
+			/*if we've got iOS, force the videos to the small, non-flash version*/
+			if (Y.UA.ios) {
+				this.adjustVideos();
+			}
 		},
 		handleClick: function(e) {
 			if (e.target.get('tagName') === 'A'){
@@ -36,6 +40,10 @@ YUI.add('tutorial', function(Y) {
 			else {
 				this.bar.addClass('slide-hide');
 			}
+		}, 
+		adjustVideos: function(){
+			Y.all('p.video-large').setStyle('display', 'none');
+			Y.all('p.video-small').setStyle('display', 'block');
 		}
 	};
 	Y.Revealer = function() {
@@ -193,7 +201,8 @@ YUI.add('tutorial', function(Y) {
 	Y.SectionQuiz = function(form) {
 		this.form = form;
 		this.submitBtn = this.form.one('input[type=submit]');
-		this.numCorrect = [];
+		this.resetBtn = this.form.one('input[type=reset]');
+		this.numCorrect = 0;
 		this.numRequired = this.form.getAttribute('data-required');
 		this.formName = this.form.getAttribute('data-name');
 		this.email = this.form.one('input[type=email]');
@@ -204,7 +213,17 @@ YUI.add('tutorial', function(Y) {
 	Y.SectionQuiz.prototype = {
 		init: function() {
 			this.submitBtn.on('click', this.validateForm, this);
+			this.resetBtn.on('click', this.reset, this);
 		}, 
+		reset: function(e) {
+			//hide all hints/prompts
+			this.form.all('span.error').addClass('hide');
+			this.form.all('span.correct').addClass('hide');
+			this.form.one('p.congrats').addClass('hide');
+			this.form.one('p.sorry').addClass('hide');
+			//reset submit button
+			this.submitBtn.set('disabled', false);
+		},
 		validateForm: function(e) {
 			var emailValid = this.emailIsValid(),
 			nameValid = this.nameIsValid(), 
@@ -245,14 +264,18 @@ YUI.add('tutorial', function(Y) {
 			return (questionsAnswered.length === numQuestions);
 		}, 
 		gradeQuiz: function() {
-			var numCorrect = this.numCorrect;
+			var results = {
+				correct: [],
+				incorrect: []
+			};
 			this.questionEls.each(function(el){
 				var checkBoxes = el.all('input[type=checkbox]'), 
 				questionIsCorrect = true, 
-				correctPrompt = el.previous('span.correct');
+				correctPrompt = el.previous('span.correct'), 
+				numTrue = 1;
 				 
 				for (i=0, x=checkBoxes.size(); i<x; i++) {
-					var numTrue = 1;
+					
 					/*go through the checked boxes first*/
 					if (checkBoxes.item(i).get('checked')) {
 						//incorrect item checked, point it out and mark question wrong
@@ -272,9 +295,7 @@ YUI.add('tutorial', function(Y) {
 					if (checkBoxes.item(i).getAttribute('data-c') === "true") {
 						numTrue++;
 					}
-					
 				}
-				
 				/*iterate through correctly checked on incomplete multiple answer and reveal hint*/
 				if (numTrue > 1) {
 					for (i=0, x=checkBoxes.size(); i<x; i++) {
@@ -289,14 +310,25 @@ YUI.add('tutorial', function(Y) {
 				//if question is correct, display congrats, increment numCorrect
 				if (questionIsCorrect) {
 					correctPrompt.removeClass('hide');
-					numCorrect.push(el.one('input').get('name'));
+					results.correct.push(el.one('input').get('name'));
 				}
-				return numCorrect;
+				else {	
+					results.incorrect.push(el.one('input').get('name'));
+				}
+				return results;
 				
-			}, numCorrect);
-			this.numCorrect = numCorrect;
-			console.log("number correct: " + this.numCorrect.length);
-			console.log("correct items: " + this.numCorrect);
+			}, results);
+			this.numCorrect = results.correct.length;
+			if (this.numCorrect >= this.numRequired) {
+				this.form.one('p.congrats').removeClass('hide');
+			}
+			else {
+				this.form.one('p.sorry').removeClass('hide');
+				this.submitBtn.set('disabled', true);
+			}
+			console.log("number correct: " + this.numCorrect);
+			console.log("correct items: " + results.correct);
+			console.log("incorrect items: " + results.incorrect);
 			console.log("number required: " + this.numRequired);
 		}
 	};

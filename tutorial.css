@@ -334,7 +334,7 @@ div#footer{
 	display:inline;
 	width:auto;
 }
-.mct input[type="submit"] {
+.mct input[type="submit"], .mct input[type="reset"] {
 	width:auto;
 }
 
@@ -485,6 +485,14 @@ border-bottom-right-radius: 50px;
 .mct span.xmark {
 	color:#993366;
 	font-weight:bold;
+}
+.mct p.sorry {
+	font-weight:bold;
+	color:#993366;
+}
+.mct p.congrats {
+	font-weight:bold;
+	color:#9fa25e;
 }
 
 /*media queries*/
