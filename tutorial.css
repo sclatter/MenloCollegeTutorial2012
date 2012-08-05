@@ -313,7 +313,13 @@ div#footer{
 	color:#9fa25e;
 	font-style:italic;
 }
-.mct form, .mct select, .mct label, .mct input {
+
+.mct form {
+	display:inline-block;
+	width:80%;
+	max-width:600px;
+}
+.mct select, .mct label, .mct input {
 	clear:both;
 	float:none;
 	display:block;
@@ -350,7 +356,7 @@ div#footer{
 
 
 /*special items*/
-.mct .subnav {
+.mct #subnav {
 	display:inline;
 	font-family:Verdana;
 	font-size:80%;
@@ -358,15 +364,15 @@ div#footer{
 	padding-left:20px;
 	width:230px;
 }
-.mct .subnav ul {
+.mct #subnav ul {
 	list-style-type:none;
 	padding:0;
 }
-.mct .subnav ul li {
+.mct #subnav ul li {
 	border-top:2px dotted #9fa25e;
 	padding:5px 0;
 }
-.mct .subnav ul li.first {
+.mct #subnav ul li.first {
 	border-top:none;
 }
 .mct .clearfix:after {
@@ -443,6 +449,7 @@ border-bottom-right-radius: 50px;
 .mct div.article-image {
 	display:inline;
 	float:right;
+	margin:0 10px;
 	overflow:hidden;
 	width:230px;
 	height:400px;
@@ -514,6 +521,9 @@ border-bottom-right-radius: 50px;
 	.mct .page-hide {
 		display:block !important;
 	}
+	.mct #subnav {
+		display:none;
+	}
 	.mct #navigation {
 		-webkit-transition: margin 1s ease-in-out;
 		-moz-transition: margin 1s ease-in-out;
@@ -581,6 +591,7 @@ border-bottom-right-radius: 50px;
 	}
 	.mct #header a.mini-nav {
 		display:inline-block;
+		background:url(images/nav.gif) no-repeat 0 2px;
 	}
 	.mct #header a.mini-nav:focus, .mct #header a.mini-nav:active {
 		overflow:hidden;

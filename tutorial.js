@@ -80,13 +80,24 @@ YUI.add('tutorial', function(Y) {
 	};
 	Y.Pagination.startSection = Y.one('section#intro');
 	Y.Pagination.pagination =  Y.one('#pagination');
+	Y.Pagination.subnav = Y.one('div#subnav');
 	Y.Pagination.manageArticles = function(e) {
+		//scroll to top
+		window.scrollTo(0,0);
 		var allArticles = Y.Pagination.startSection.all('article'),
 			artLength = allArticles.size(), 
-			myActive = 0;
+			myActive = 0, 
+			sectionId = Y.Pagination.startSection.get('id');
+
+			//activate subnav & turn on subnav for the section
+			Y.Pagination.subnav.removeClass('hide');
+			//hide all ULs, and turn only the appropriate one one
+			Y.Pagination.subnav.all('ul').addClass('hide');
+			Y.Pagination.subnav.all('ul#sub' + sectionId).removeClass('hide');
+			
 			pNext = Y.Pagination.pagination.one('.next'), 
 			pBack = Y.Pagination.pagination.one('.back');
-			if(e) {
+			if(e && e.target.get('tagName') === 'A') {
 				e.halt();
 				myActive = e.target.getAttribute('data-gotopage');
 			}
@@ -127,6 +138,7 @@ YUI.add('tutorial', function(Y) {
 			Y.Pagination.manageArticles();
 			Y.on('hashchange', this.swapSection, Y.config.win);
 			Y.Pagination.pagination.on('click', Y.Pagination.manageArticles, this);
+			Y.Pagination.subnav.on('click', Y.Pagination.manageArticles, this);
 		},
 		initializeSections : function() {
 			this.sections.each(function(node){
