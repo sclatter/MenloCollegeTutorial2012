@@ -242,6 +242,7 @@ div#footer{
 	top:0;
 	opacity:0;
 	filter: alpha(opacity = 0);
+	zoom:1;
 }
 .mct table span {
 	display:block;
@@ -253,13 +254,10 @@ div#footer{
 	vertical-align:top;
 }
 .mct cite {
-	background-color:#9fbed7;
-	color:white;
 	display:inline-block;
 	padding:5px 10px;
 	font-size:80%;
-	font-style:normal;
-	font-weight:bold;
+	font-style:italic;
 }
 
 .mct ul, .mct ol

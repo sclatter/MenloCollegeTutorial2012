@@ -8,6 +8,7 @@ YUI.add('tutorial', function(Y) {
 	Y.Navigation = function() {
 		this.header = Y.one('#header');
 		this.bar = Y.one('#navigation');
+		this.navPs = Y.all('p.navigation');
 		this.navButton = Y.one('#header').one('.mini-nav');    
 		this.init();	
 	};
@@ -16,6 +17,7 @@ YUI.add('tutorial', function(Y) {
 			this.bar.addClass('slide-hide');
 			this.navButton.on('click', this.toggleNav, this);
 			this.bar.on('click', this.handleClick, this);
+			this.navPs.on('click', this.handleClick, this);
 			/*if we've got iOS, force the videos to the small, non-flash version*/
 			if (Y.UA.ios) {
 				this.adjustVideos();
@@ -23,10 +25,17 @@ YUI.add('tutorial', function(Y) {
 		},
 		handleClick: function(e) {
 			if (e.target.get('tagName') === 'A'){
-				var section = e.target.getAttribute('data-title');
+				var section = e.target.getData('title');
+				var highlightIndex = e.target.getData('hindex');
+				var anchorEls = this.bar.all('a');
 				this.toggleNav();
-				this.bar.all('a').removeClass('active');
-				e.target.addClass('active');
+				anchorEls.removeClass('active');
+				if (highlightIndex) {
+					anchorEls.item(highlightIndex).addClass('active');
+				}
+				else {
+					e.target.addClass('active');
+				}
 				this.header.one('h1 > span').set('innerHTML', section);
 			}
 		},
@@ -99,7 +108,7 @@ YUI.add('tutorial', function(Y) {
 			pBack = Y.Pagination.pagination.one('.back');
 			if(e && e.target.get('tagName') === 'A') {
 				e.halt();
-				myActive = e.target.getAttribute('data-gotopage');
+				myActive = e.target.getData('gotopage');
 			}
 			/*if there is more than one article, hide subsequent 
 			and set up pagination*/
@@ -113,7 +122,7 @@ YUI.add('tutorial', function(Y) {
 					allArticles.item(i).setAttribute('data-page', i);
 				}
 				var active = Y.Pagination.startSection.one('.active'), 
-				page = parseInt(active.getAttribute('data-page'));
+				page = parseInt(active.getData('page'));
 				if (page < artLength - 1) {
 					pNext.removeClass('hide');
 					pNext.setAttribute('data-gotopage', page+1)
@@ -122,7 +131,7 @@ YUI.add('tutorial', function(Y) {
 					pNext.addClass('hide');
 					pNext.setAttribute('data-gotopage', artLength - 1);
 				}
-				if (active.getAttribute('data-page') > 0) {
+				if (active.getData('page') > 0) {
 					pBack.removeClass('hide');
 					pBack.setAttribute('data-gotopage', page-1);
 				}
@@ -161,11 +170,17 @@ YUI.add('tutorial', function(Y) {
 	};
 	Y.DropQuiz.prototype = {
 		init : function() {
-			this.form.on("change", this.handleChange, this);
+		//if we're not IE <= 8, we can delegate this event
+			if (Y.UA.ie > 0 && (Y.UA.ie < 9)) {
+				this.form.all('select').on("change", this.handleChange, this);
+			} 
+			else {
+				this.form.on("change", this.handleChange, this);
+			}
 		}, 
 		handleChange : function(e) {
 			//check the value and if it matches a valid value
-			if (this.containsValue(e.target.get('value'),e.target.getAttribute('data-valid').split('|'))) {
+			if (this.containsValue(e.target.get('value'),e.target.getData('valid').split('|'))) {
 				e.target.next('div.scoring').set('innerHTML', CORRECT_MARK + CORRECT_MSG);
 			}
 			else {
@@ -183,8 +198,8 @@ YUI.add('tutorial', function(Y) {
 		}
 	};
 	Y.TableToggle = function(tableController) {
-		this.controller = tableController;
-		this.table = this.controller.get('nextSibling').get('nextSibling');
+		this.controller = tableController.one('ul.table-driver');
+		this.table = tableController.one('table');
 		this.init();
 	};
 	Y.TableToggle.prototype = {
@@ -192,10 +207,11 @@ YUI.add('tutorial', function(Y) {
 			this.controller.on('click', this.handleClick, this);
 		}, 
 		handleClick : function(e) {
+			e.preventDefault();
 			if (e.target.get('tagName') === 'A') {
-				e.preventDefault();
+				
 				this.hideAllRows();
-				this.showRow(e.target.getAttribute('data-item'));
+				this.showRow(e.target.getData('item'));
 			}
 			else {
 				return;
@@ -215,8 +231,8 @@ YUI.add('tutorial', function(Y) {
 		this.submitBtn = this.form.one('input[type=submit]');
 		this.resetBtn = this.form.one('input[type=reset]');
 		this.numCorrect = 0;
-		this.numRequired = this.form.getAttribute('data-required');
-		this.formName = this.form.getAttribute('data-name');
+		this.numRequired = this.form.getData('required');
+		this.formName = this.form.getData('name');
 		this.email = this.form.one('input[type=email]');
 		this.name = this.form.one('input[type=text]');
 		this.questionEls = this.form.all('ul');
@@ -267,13 +283,13 @@ YUI.add('tutorial', function(Y) {
 		allQuestionsAnswered: function(){
 			var numQuestions = this.questionEls.size(), 
 			questionsAnswered = [];
-			this.questionEls.each(function(el){
-				var boxes = el.all('input[type=checkbox]:checked').size();
+			for (i=0; i < numQuestions; i++) {
+				var boxes = this.questionEls.item(i).all('input[type=checkbox]:checked').size();
 				if (boxes > 0) {
 					questionsAnswered.push(boxes);
 				}
-			}, questionsAnswered);
-			return (questionsAnswered.length === numQuestions);
+			}
+			return (questionsAnswered.length === numQuestions);	
 		}, 
 		gradeQuiz: function() {
 			var results = {
@@ -291,7 +307,7 @@ YUI.add('tutorial', function(Y) {
 					/*go through the checked boxes first*/
 					if (checkBoxes.item(i).get('checked')) {
 						//incorrect item checked, point it out and mark question wrong
-						if (checkBoxes.item(i).getAttribute('data-c') === "false") {
+						if (checkBoxes.item(i).getData('c') === "false") {
 							checkBoxes.item(i).next('span.error').removeClass('hide');
 							questionIsCorrect = false;
 						}
@@ -299,12 +315,12 @@ YUI.add('tutorial', function(Y) {
 					/*then go through the unchecked boxes*/
 					else {
 						//they missed one that should have been checked, mark question wrong
-						if (checkBoxes.item(i).getAttribute('data-c') === "true") {
+						if (checkBoxes.item(i).getData('c') === "true") {
 							questionIsCorrect = false;
 						}
 					}
 					/*count number of true boxes for multiple answer*/
-					if (checkBoxes.item(i).getAttribute('data-c') === "true") {
+					if (checkBoxes.item(i).getData('c') === "true") {
 						numTrue++;
 					}
 				}
@@ -312,7 +328,7 @@ YUI.add('tutorial', function(Y) {
 				if (numTrue > 1) {
 					for (i=0, x=checkBoxes.size(); i<x; i++) {
 						if (checkBoxes.item(i).get('checked') && 
-						checkBoxes.item(i).getAttribute('data-c') === "true" &&
+						checkBoxes.item(i).getData('c') === "true" &&
 						!questionIsCorrect) {
 							checkBoxes.item(i).next('span.error').removeClass('hide');
 						}
@@ -344,8 +360,13 @@ YUI.add('tutorial', function(Y) {
 			console.log("number required: " + this.numRequired);
 		}
 	};
+	
+	//lazy load images and videos
+	Y.all('div.article-image img').removeClass('hide');
+	Y.all('img.feature').removeClass('hide');
+	Y.all('div.video').removeClass('hide');
     
-}, '0.0.1', { requires: ['node','event','history-hash'] });
+}, '0.0.1', { requires: ['node','event','history-hash', 'selector-css3'] });
 
 YUI().use('tutorial', function(Y) {
     	var tmp = new Y.Navigation();
@@ -355,7 +376,7 @@ YUI().use('tutorial', function(Y) {
 		tmp4.each(function(form){
 			var els = new Y.DropQuiz(form);
 		});
-		var tmp5 = Y.all('ul.table-driver');
+		var tmp5 = Y.all('div.table-driver');
 		tmp5.each(function(el){
 			var els = new Y.TableToggle(el);
 		});
