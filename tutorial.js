@@ -294,8 +294,13 @@ YUI.add('tutorial', function(Y) {
 		gradeQuiz: function() {
 			var results = {
 				correct: [],
-				incorrect: []
+				incorrect: [], 
+				list: []
 			};
+			//push base details into results
+			results.list.push(this.form.getData('name'));
+			results.list.push(this.name.get('value'));
+			results.list.push(this.email.get('value'));
 			this.questionEls.each(function(el){
 				var checkBoxes = el.all('input[type=checkbox]'), 
 				questionIsCorrect = true, 
@@ -339,9 +344,11 @@ YUI.add('tutorial', function(Y) {
 				if (questionIsCorrect) {
 					correctPrompt.removeClass('hide');
 					results.correct.push(el.one('input').get('name'));
+					results.list.push(1);
 				}
 				else {	
 					results.incorrect.push(el.one('input').get('name'));
+					results.list.push(0);
 				}
 				return results;
 				
@@ -354,10 +361,24 @@ YUI.add('tutorial', function(Y) {
 				this.form.one('p.sorry').removeClass('hide');
 				this.submitBtn.set('disabled', true);
 			}
-			console.log("number correct: " + this.numCorrect);
-			console.log("correct items: " + results.correct);
-			console.log("incorrect items: " + results.incorrect);
-			console.log("number required: " + this.numRequired);
+			//post results
+			this.postResults(results.list);
+		}, 
+		postResults : function(list) {
+		    var list = list;
+		    var handleSuccess = function(){console.log('Results posted successfully.');};
+		    var handleFailure = function(){console.log('Failed to post results.');};
+		    var uri = 'quiz.php';
+		    var conf =  {
+			method: 'POST',
+			data: 'list=' + list,
+			headers: { 'X-Transaction': 'Quiz Results'}, 
+			on: {
+        		    success: handleSuccess,
+        		    failure: handleFailure    				
+			    }
+			};
+		    Y.io(uri, conf);	
 		}
 	};
 	
@@ -366,7 +387,7 @@ YUI.add('tutorial', function(Y) {
 	Y.all('img.feature').removeClass('hide');
 	Y.all('div.video').removeClass('hide');
     
-}, '0.0.1', { requires: ['node','event','history-hash', 'selector-css3'] });
+}, '0.0.1', { requires: ['node','event','history-hash', 'selector-css3', 'io-base'] });
 
 YUI().use('tutorial', function(Y) {
     	var tmp = new Y.Navigation();
