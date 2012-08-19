@@ -295,7 +295,8 @@ YUI.add('tutorial', function(Y) {
 			var results = {
 				correct: [],
 				incorrect: [], 
-				list: []
+				list: [], 
+				pass: false
 			};
 			//push base details into results
 			results.list.push(this.form.getData('name'));
@@ -356,22 +357,27 @@ YUI.add('tutorial', function(Y) {
 			this.numCorrect = results.correct.length;
 			if (this.numCorrect >= this.numRequired) {
 				this.form.one('p.congrats').removeClass('hide');
+				results.pass = true;
 			}
 			else {
 				this.form.one('p.sorry').removeClass('hide');
 				this.submitBtn.set('disabled', true);
 			}
 			//post results
-			this.postResults(results.list);
+			this.postResults(results.list, results.pass);
 		}, 
-		postResults : function(list) {
+		postResults : function(list, pass) {
 		    var list = list;
+		    var pass = pass;
+		    var name = list[1];
+		    var email = list[2];
+		    var quiz = list[0];
 		    var handleSuccess = function(){console.log('Results posted successfully.');};
 		    var handleFailure = function(){console.log('Failed to post results.');};
 		    var uri = 'quiz.php';
 		    var conf =  {
 			method: 'POST',
-			data: 'list=' + list,
+			data: 'list=' + list + '&pass=' + pass + '&email=' + email + '&quiz=' + quiz + '&name=' + name,
 			headers: { 'X-Transaction': 'Quiz Results'}, 
 			on: {
         		    success: handleSuccess,
