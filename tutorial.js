@@ -314,7 +314,9 @@ YUI.add('tutorial', function(Y) {
 					if (checkBoxes.item(i).get('checked')) {
 						//incorrect item checked, point it out and mark question wrong
 						if (checkBoxes.item(i).getData('c') === "false") {
-							checkBoxes.item(i).next('span.error').removeClass('hide');
+							if (checkBoxes.item(i).next('span.error')) {
+								checkBoxes.item(i).next('span.error').removeClass('hide');
+							}
 							questionIsCorrect = false;
 						}
 					}
@@ -336,7 +338,9 @@ YUI.add('tutorial', function(Y) {
 						if (checkBoxes.item(i).get('checked') && 
 						checkBoxes.item(i).getData('c') === "true" &&
 						!questionIsCorrect) {
-							checkBoxes.item(i).next('span.error').removeClass('hide');
+							if (checkBoxes.item(i).next('span.error')) {
+								checkBoxes.item(i).next('span.error').removeClass('hide');
+							}
 						}
 					}
 				}
