@@ -83,6 +83,26 @@ YUI.add('tutorial', function(Y) {
 			el.one('strong').removeClass('hide');
 		}
 	};
+	
+	Y.ShowMe = function() {
+		this.lists = Y.all('ul.more-info');
+		this.triggers = Y.all('ul.more-info a.trigger');
+		this.init();
+	};
+	Y.ShowMe.prototype = {
+		init: function() {
+			this.triggers.on('click', this.revealNext, this);
+			this.lists.on('mouseenter', this.hideTrigger, this);
+		}, 
+		revealNext: function(e) {
+			e.preventDefault();
+			e.target.ancestor('ul').one('ol').removeClass('hiding');
+		}, 
+		hideTrigger: function(e) {
+			e.target.all('a.trigger').addClass('hide');
+		}
+	};
+	
 	Y.Pagination = function(){
 		this.sections = Y.all('section');
 		this.init();
@@ -415,4 +435,5 @@ YUI().use('tutorial', function(Y) {
 		tmp6.each(function(form){
 			var els = new Y.SectionQuiz(form);
 		});
+		var tmp7 = new Y.ShowMe();
 });

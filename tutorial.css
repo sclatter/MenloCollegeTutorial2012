@@ -256,7 +256,6 @@ div#footer{
 .mct cite {
 	display:inline-block;
 	padding:5px 10px;
-	font-size:80%;
 	font-style:italic;
 }
 
@@ -352,8 +351,54 @@ div#footer{
 	font-size:120%;
 }
 
+.mct p.heading {
+	font-weight:bold;
+}
+
 
 /*special items*/
+.mct ul.more-info li.sub-info-graphic {
+	background-color:#9fa25e;
+	list-style-type:none;
+	margin-top:20px;
+	overflow:hidden;
+	padding-top:0;
+	width:35%;
+}
+.mct ul.more-info li.sub-info-graphic span {
+	background-color:#9fa25e;
+	color:#fff;
+	float:left;
+	display:inline-block;
+	padding:10px;
+	width:auto;
+}
+.mct ul.more-info li.sub-info-graphic ol {
+	background-color:#9fbed7;
+	display:inline-block;
+	float:right;
+	list-style-position:inside;
+
+	width:50%;
+}
+.mct ul.more-info li.sub-info-graphic ol.hiding {
+	height:0;
+	opacity:0;
+	filter: alpha(opacity = 0);
+	-webkit-transition: opacity .5s linear, height 1s linear;
+    -moz-transition: opacity .5s linear, height 1s linear;
+    -o-transition: opacity .5s linear, height 1s linear;
+    -ms-transition: opacity .5s linear, height 1s linear;    
+    transition: opacity .5s linear, height 1s linear;
+}
+.mct ul.more-info:hover li.sub-info-graphic ol.hiding {
+	filter: alpha(opacity = 1);
+	height:auto;
+	opacity:1;
+}
+.mct li.clear {
+	clear:both;
+}
 .mct #subnav {
 	display:inline;
 	font-family:Verdana;
