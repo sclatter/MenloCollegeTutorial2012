@@ -5,6 +5,11 @@ YUI.add('tutorial', function(Y) {
 	CORRECT_MSG = 'Correct!';
 	INCORRECT_MSG = 'Wrong.';
 	
+	/**
+	@class Navigation
+	@constructor
+	Runs the navigation interaction
+	*/
 	Y.Navigation = function() {
 		this.header = Y.one('#header');
 		this.bar = Y.one('#navigation');
@@ -23,6 +28,11 @@ YUI.add('tutorial', function(Y) {
 				this.adjustVideos();
 			}
 		},
+		/**
+		@method handleClick handles
+		clicks on the navigation bar
+		@param e is the event object
+		*/
 		handleClick: function(e) {
 			if (e.target.get('tagName') === 'A'){
 				var section = e.target.getData('title');
@@ -39,6 +49,12 @@ YUI.add('tutorial', function(Y) {
 				this.header.one('h1 > span').set('innerHTML', section);
 			}
 		},
+		/**
+		@method toggleNav shows and 
+		hides the tray navigation 
+		on mobile devices
+		@param e is the event object
+		*/
 		toggleNav: function(e) {
 			if(e) {
 				e.halt();
@@ -50,11 +66,24 @@ YUI.add('tutorial', function(Y) {
 				this.bar.addClass('slide-hide');
 			}
 		}, 
+		/**
+		@method adjust videos
+		toggles videos for iOS
+		to make them navigable
+		for non-Flash
+		*/
 		adjustVideos: function(){
 			Y.all('p.video-large').setStyle('display', 'none');
 			Y.all('p.video-small').setStyle('display', 'block');
 		}
 	};
+	/**
+	@class Revealer handles
+	@constructor
+	Handles the interaction for
+	all the colorful revealing
+	lists in the tutorial
+	*/
 	Y.Revealer = function() {
 		this.nodes = Y.all('ol.reveal');
 		this.init();
@@ -65,25 +94,58 @@ YUI.add('tutorial', function(Y) {
 			this.nodes.on('click', this.handleClick, this);
 			this.nodes.on('mouseover', this.handleHover, this);
 		},
+		/**
+		@method handleClick handles
+		clicks on images for non-hoverable
+		browsers
+		@param e is the event object
+		*/
 		handleClick : function(e) {
 			if (e.target.get('tagName') === 'IMG') {
 				this.reveal(e.target.get('parentNode'));
 			}
 		},
+		/**
+		@method handleHover handles
+		hovers on each image
+		@param e is the event object
+		*/
 		handleHover : function(e) {
 			if (e.target.get('tagName') === 'IMG') {
 				this.reveal(e.target.get('parentNode'));
 			}
 		},
+		/**
+		@method reveal handles
+		changing the classname with delay
+		@param el is the element 
+		being transformed.
+		*/
 		reveal : function(el) {
 			el.addClass('expand');
 			Y.later(1000, this, this.clearHide, el);
 		}, 
+		/**
+		@method clearHide handles
+		revealing the text on the list
+		item
+		@param el is the element being 
+		transformed
+		*/
 		clearHide : function(el) {
 			el.one('strong').removeClass('hide');
 		}
 	};
 	
+	/**
+	@class ShowMe
+	@constructor
+	does the hover/reveal
+	interaction on the 
+	truncation search list
+	and any similar interactions
+	desired
+	*/
 	Y.ShowMe = function() {
 		this.lists = Y.all('ul.more-info');
 		this.triggers = Y.all('ul.more-info a.trigger');
@@ -94,22 +156,54 @@ YUI.add('tutorial', function(Y) {
 			this.triggers.on('click', this.revealNext, this);
 			this.lists.on('mouseenter', this.hideTrigger, this);
 		}, 
+		/**
+		@method revealNext shows
+		the obscured sub-list
+		@param e is the event object
+		*/
 		revealNext: function(e) {
 			e.preventDefault();
 			e.target.ancestor('ul').one('ol').removeClass('hiding');
 		}, 
+		/**
+		@method hideTrigger hides the 
+		trigger anchor when the interaction
+		has been revealed
+		@param e is the event object
+		*/
 		hideTrigger: function(e) {
 			e.target.all('a.trigger').addClass('hide');
 		}
 	};
 	
+	/**
+	@class Pagination 
+	@constructor
+	Handles the on the fly
+	pagination of article tags
+	and page changes via the 
+	subnav on desktop browsers
+	*/
 	Y.Pagination = function(){
 		this.sections = Y.all('section');
 		this.init();
 	};
+	/**
+	static properties and methods 
+	needed for hashchange event, which
+	cannot bind to reference object
+	*/
 	Y.Pagination.startSection = Y.one('section#intro');
 	Y.Pagination.pagination =  Y.one('#pagination');
 	Y.Pagination.subnav = Y.one('div#subnav');
+	/**
+	@method manageArticles sets
+	up pagination of articles
+	when a section is selected in the main
+	navigation, triggering a hashchange 
+	event
+	@param e is the event object
+	*/
 	Y.Pagination.manageArticles = function(e) {
 		//scroll to top
 		window.scrollTo(0,0);
@@ -161,6 +255,9 @@ YUI.add('tutorial', function(Y) {
 				}
 			}
 	};
+	/**
+	instance methods for Pagination
+	*/
 	Y.Pagination.prototype = {
 		init : function() {
 			this.initializeSections();
@@ -169,12 +266,21 @@ YUI.add('tutorial', function(Y) {
 			Y.Pagination.pagination.on('click', Y.Pagination.manageArticles, this);
 			Y.Pagination.subnav.on('click', Y.Pagination.manageArticles, this);
 		},
+		/**
+		@method initializeSections hides
+		all but the current section we are in
+		*/
 		initializeSections : function() {
 			this.sections.each(function(node){
 				node.addClass('hide');
 			});
 			Y.Pagination.startSection.removeClass('hide');
 		},
+		/**
+		@method swapSection changes current
+		section on hashchange event 
+		@param e is the event object
+		*/
 		swapSection : function(e) {
 			Y.all('section').addClass('hide');
 			var selector = '#' + e.newHash,
@@ -184,6 +290,16 @@ YUI.add('tutorial', function(Y) {
 			Y.Pagination.manageArticles();
 		}
 	};
+	/**
+	@class DropQuiz
+	@constructor
+	handles the interactive 
+	dropdown exercises in the 
+	tutorial
+	@param formNode is the form
+	we are attaching interaction 
+	to
+	*/
 	Y.DropQuiz = function(formNode) {
 		this.form = formNode;
 		this.init();
@@ -198,6 +314,12 @@ YUI.add('tutorial', function(Y) {
 				this.form.on("change", this.handleChange, this);
 			}
 		}, 
+		/**
+		@method handleChange
+		handles the change on any select form
+		control and gives feedback on correctness
+		@param e is the event object
+		*/
 		handleChange : function(e) {
 			//check the value and if it matches a valid value
 			if (this.containsValue(e.target.get('value'),e.target.getData('valid').split('|'))) {
@@ -207,6 +329,14 @@ YUI.add('tutorial', function(Y) {
 				e.target.next('div.scoring').set('innerHTML', INCORRECT_MARK + INCORRECT_MSG);
 			}
 		}, 
+		/**
+		@method containsValue checks
+		to see if the answer selected
+		is contained in the set of 
+		correct answers, supporting multiple corrects
+		@param needle is the answer to find
+		@param haystack is the list of possible answers
+		*/
 		containsValue : function(needle, haystack) {
 			var l = haystack.length;
 			for (var i = 0; i < l; i++) {
@@ -217,6 +347,18 @@ YUI.add('tutorial', function(Y) {
 			return false;
 		}
 	};
+	/**
+	@class TableToggle
+	@constructor
+	handles the interactions
+	for tables containing
+	comparisons of scholarly vs. popular
+	sources and different types of Boolean
+	searches
+	@param tableController
+	is the list element used to select
+	options for display in the table
+	*/
 	Y.TableToggle = function(tableController) {
 		this.controller = tableController.one('ul.table-driver');
 		this.table = tableController.one('table');
@@ -226,6 +368,12 @@ YUI.add('tutorial', function(Y) {
 		init : function(){
 			this.controller.on('click', this.handleClick, this);
 		}, 
+		/**
+		@method handleClick
+		handles clicks on the controller
+		list
+		@param e is the event object
+		*/
 		handleClick : function(e) {
 			e.preventDefault();
 			if (e.target.get('tagName') === 'A') {
@@ -237,15 +385,37 @@ YUI.add('tutorial', function(Y) {
 				return;
 			}
 		},
+		/**
+		@method hideAllRows
+		hides all the rows in the table from
+		view for visual users only
+		*/
 		hideAllRows : function(){
 			this.table.all('tr.inner-row').addClass('ghost');
 			this.table.all('img').addClass('hide');
 		}, 
+		/**
+		@method showRow
+		reveals the appropriate table
+		row for visual users only
+		@param rowItem is the row 
+		to show
+		*/
 		showRow : function(rowItem){
 			this.table.all('tr.inner-row').item(rowItem).removeClass('ghost');
 			this.table.all('img').removeClass('hide');
 		}
 	};
+	/**
+	@class SectionQuiz
+	@constructor
+	handles the interaction
+	for all Section knowledge
+	quizzes
+	@param form is the form 
+	we are attaching the 
+	interaction to
+	*/
 	Y.SectionQuiz = function(form) {
 		this.form = form;
 		this.submitBtn = this.form.one('input[type=submit]');
@@ -263,6 +433,12 @@ YUI.add('tutorial', function(Y) {
 			this.submitBtn.on('click', this.validateForm, this);
 			this.resetBtn.on('click', this.reset, this);
 		}, 
+		/**
+		@method reset
+		resets the form when
+		reset button is clicked
+		@param e is the event object
+		*/
 		reset: function(e) {
 			//hide all hints/prompts
 			this.form.all('span.error').addClass('hide');
@@ -272,6 +448,14 @@ YUI.add('tutorial', function(Y) {
 			//reset submit button
 			this.submitBtn.set('disabled', false);
 		},
+		/**
+		@method validateForm
+		validates that all 
+		questions are attempted
+		and that name and email are
+		provided
+		@param e is the event object
+		*/
 		validateForm: function(e) {
 			var emailValid = this.emailIsValid(),
 			nameValid = this.nameIsValid(), 
@@ -292,14 +476,31 @@ YUI.add('tutorial', function(Y) {
 				}
 			}
 		}, 
+		/**
+		@method emailIsValid
+		checks that email is not empty and contains
+		@ and . characters. 
+		@return boolean
+		*/
 		emailIsValid: function() {
 			 return (this.email.get('value') !== '' && 
 			 this.email.get('value').indexOf('.') !== -1 && 
 			 this.email.get('value').indexOf('@') !== -1);
 		}, 
+		/**
+		@method nameIsValid
+		checks that name field is not empty
+		@return boolean
+		*/
 		nameIsValid: function(){
 			return (this.email.get('value') !== '');
 		}, 
+		/**
+		@method allQuestionsAnswered
+		checks that all questions 
+		have at least one box checked
+		@return boolean
+		*/
 		allQuestionsAnswered: function(){
 			var numQuestions = this.questionEls.size(), 
 			questionsAnswered = [];
@@ -311,6 +512,14 @@ YUI.add('tutorial', function(Y) {
 			}
 			return (questionsAnswered.length === numQuestions);	
 		}, 
+		/**
+		@method gradeQuiz
+		determines whether questions are
+		right or wrong and tallies 
+		the number correct for pass or fail
+		It also gives the feedback 
+		to the user about each item selected
+		*/
 		gradeQuiz: function() {
 			var results = {
 				correct: [],
@@ -390,6 +599,16 @@ YUI.add('tutorial', function(Y) {
 			//post results
 			this.postResults(results.list, results.pass);
 		}, 
+		/**
+		@method postResults sends
+		the results of the quiz 
+		to a back end script for storage/processing
+		@param list is the list containing 
+		student information and result of each
+		question
+		@param pass is a Boolean representing
+		whether it was a pass or fail
+		*/
 		postResults : function(list, pass) {
 		    var list = list;
 		    var pass = pass;
@@ -419,6 +638,7 @@ YUI.add('tutorial', function(Y) {
     
 }, '0.0.1', { requires: ['node','event','history-hash', 'selector-css3', 'io-base'] });
 
+/*use the tutorial module and instantiate all objects from the classes*/
 YUI().use('tutorial', function(Y) {
     	var tmp = new Y.Navigation();
 		var tmp2 = new Y.Revealer();
