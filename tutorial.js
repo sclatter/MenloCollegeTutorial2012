@@ -3,7 +3,7 @@ YUI.add('tutorial', function(Y) {
 	CORRECT_MARK = '<span class="checkmark">&#x2714;</span>';
 	INCORRECT_MARK = '<span class="xmark">&#x2718;</span>';
 	CORRECT_MSG = 'Correct!';
-	INCORRECT_MSG = 'Wrong.';
+	INCORRECT_MSG = 'Try Again.';
 	
 	/**
 	@class Navigation
@@ -205,6 +205,10 @@ YUI.add('tutorial', function(Y) {
 	@param e is the event object
 	*/
 	Y.Pagination.manageArticles = function(e) {
+		//if coming from a click event, make sure target was anchor
+		if(e && e.target.get('tagName') !== 'A') {	
+			return false;
+		}
 		//scroll to top
 		window.scrollTo(0,0);
 		var allArticles = Y.Pagination.startSection.all('article'),
@@ -377,7 +381,7 @@ YUI.add('tutorial', function(Y) {
 		handleClick : function(e) {
 			e.preventDefault();
 			if (e.target.get('tagName') === 'A') {
-				
+				this.table.removeClass('ghost');
 				this.hideAllRows();
 				this.showRow(e.target.getData('item'));
 			}

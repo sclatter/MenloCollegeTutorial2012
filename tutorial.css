@@ -1,7 +1,7 @@
 /*color palette:
 light blue: 9fbed7
 dark blue: 4a6d8c
-green: 9fa25e
+green: 9fa25e/707242
 orange: ff9933
 red: 993366
 black: 333
@@ -46,19 +46,14 @@ html,body
 div#pagination {
 	padding:20px;
 	position:absolute;
-	left:0;
+	left:28%;
 	bottom:0;
-	width:743px;
+	text-align:right;
 }
 div#pagination a {
-	display:block;
+	display:inline-block;
 	font-weight:bold;
-}
-div#pagination a.back {
-	float:left;
-}
-div#pagination a.next {
-	float:right;
+	margin:0 5px;
 }
 div#footer{
   	position:absolute;
@@ -151,7 +146,7 @@ div#footer{
 }
 
 .mct h2 {
-	color:#9fa25e;
+	color:#707242;
 	font-weight:bold;
 }
 .mct h2, .mct h3, .mct h4, .mct h5, .mct h6 {
@@ -160,6 +155,10 @@ div#footer{
 	max-width:600px;
 	width:80%;
 }
+
+.mct h2.breathe, .mct h3.breathe, .mct h4.breathe, .mct h5.breathe, .mct h6.breathe {
+	padding-top:20px;
+} 
 
 .mct h1
 {
@@ -212,8 +211,8 @@ div#footer{
 .mct p, .mct blockquote
 {
 	margin:0;
-	padding-bottom:25px;
-	line-height:24px;
+	padding-bottom:20px;
+	line-height:20px;
 	max-width:600px;
 	width:80%;
 }
@@ -236,6 +235,14 @@ div#footer{
 .mct table thead {
 	font-weight:bold;
 }
+.mct .ghost {
+	opacity:0;
+	filter: alpha(opacity = 0);
+}
+.mct .offscreen {
+	float:left;
+	margin:-999em;
+}
 .mct table tr.ghost {
 	border-top:1px solid #000;
 	position:absolute;
@@ -255,10 +262,12 @@ div#footer{
 }
 .mct cite {
 	display:inline-block;
-	padding:5px 10px;
+	padding:10px 0;
 	font-style:italic;
 }
-
+.mct cite.credits {
+	font-size:80%;
+}
 .mct ul, .mct ol
 {
 	list-style-position:outside;
@@ -301,14 +310,13 @@ div#footer{
 .mct form span.error, .mct form span.correct {
 	display:block;
 	clear:both;
+	font-weight:bold;
 }
 .mct form span.error {
 	color:#993366;
-	font-style:italic;
 }
 .mct form span.correct {
-	color:#9fa25e;
-	font-style:italic;
+	color:#707242;
 }
 
 .mct form {
@@ -343,7 +351,7 @@ div#footer{
 
 .mct select {
 	display:inline-block;
-	width:200px;
+	width:50%;
 	color:#fff;
 	background:transparent none;
 	background-color:#4a6d8c;
@@ -360,10 +368,10 @@ div#footer{
 .mct ul.more-info li.sub-info-graphic {
 	background-color:#9fa25e;
 	list-style-type:none;
-	margin-top:20px;
+	margin-top:8px;
 	overflow:hidden;
 	padding-top:0;
-	width:35%;
+	width:100%;
 }
 .mct ul.more-info li.sub-info-graphic span {
 	background-color:#9fa25e;
@@ -418,6 +426,9 @@ div#footer{
 .mct #subnav ul li.first {
 	border-top:none;
 }
+.mct #subnav ul li.first a {
+	color:#333;
+}
 .mct .clearfix:after {
 	content: ".";
 	display:block;
@@ -429,6 +440,9 @@ div#footer{
 .mct .clearfix {
 	display:inline-block;
 	*zoom:1;
+}
+.mct form {
+	padding-bottom:20px;
 }
 .mct form div.scoring {
 	float:right;
@@ -505,7 +519,7 @@ border-bottom-right-radius: 50px;
 }
 .mct img.feature {
 	width:60%;
-	padding-bottom:10px;
+	padding-bottom:20px;
 }
 
 .mct img.gumballs {
@@ -529,7 +543,7 @@ border-bottom-right-radius: 50px;
 }
 
 .mct span.checkmark {
-	color:#9fa25e;
+	color:#707242;
 	font-weight:bold;
 }
 .mct span.xmark {
@@ -542,13 +556,14 @@ border-bottom-right-radius: 50px;
 }
 .mct p.congrats {
 	font-weight:bold;
-	color:#9fa25e;
+	color:#707242;
 }
 
 /*media queries*/
 @media screen and (min-width: 1024px) {
 	.mct, .mct div#header {
 		width:1024px;
+		z-index:2;
 	}
 	.mct, .mct div#header {
 		left:auto;
