@@ -226,6 +226,15 @@ div#footer{
 	width:70%;
 	max-width:743px;
 }
+.mct table.plain {
+	border:none;
+}
+.mct table.plain img.feature {
+	width:90%;
+}
+.mct table.plain td.ghost {
+	width:10%;
+} 
 .mct table caption {
 	background-color:#993366;
 	color:#fff;
