@@ -319,7 +319,7 @@ div#footer{
 .mct .page-hide {
 	display:none !important;
 }
-/*form stuff*/
+/*form stuff*/ 
 .mct form label {
 	font-weight:bold;
 }
@@ -354,7 +354,7 @@ div#footer{
 .mct fieldset label {
 	clear:none;
 	display:inline;
-}
+} 
 .mct fieldset {
 	border:0;
 	padding:0;
@@ -363,6 +363,8 @@ div#footer{
 .mct fieldset legend {
 	font-weight:bold;
 	padding:10px 0;
+	width:80%;
+	max-width:600px;
 }
 
 .mct form ul {
