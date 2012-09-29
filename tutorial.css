@@ -31,6 +31,10 @@ html,body
 	height:100%;
 }
 
+div#tutorial-loading {
+	display:none;
+}
+
 /*styles for fixed header and footer*/
 .mct div#content{
   	margin:0;
@@ -168,9 +172,12 @@ div#footer{
 	position:absolute;
 	bottom:0;
 	left:0;
+	max-height:36px;
+	overflow:hidden;
 	text-align:left;
 	width:743px;
 }
+
 
 .mct #header a 
 {
@@ -316,6 +323,9 @@ div#footer{
 .mct form label {
 	font-weight:bold;
 }
+.mct form fieldset label {
+	font-weight:normal;
+}
 .mct form span.error, .mct form span.correct {
 	display:block;
 	clear:both;
@@ -340,6 +350,19 @@ div#footer{
 	padding:10px 0;
 	width:80%;
 	max-width:600px;
+}
+.mct fieldset label {
+	clear:none;
+	display:inline;
+}
+.mct fieldset {
+	border:0;
+	padding:0;
+}
+
+.mct fieldset legend {
+	font-weight:bold;
+	padding:10px 0;
 }
 
 .mct form ul {
@@ -583,6 +606,22 @@ border-bottom-right-radius: 50px;
 	.mct p.video-small {
 		display:none;
 	}
+	div#tutorial-loading {
+		background-color:#fff;
+		display:block;
+		height:100%;
+		width:100%;
+		position:absolute;
+		top:0;
+		left:0;
+		opacity:0.9;
+		filter: alpha(opacity = 90);
+		padding-top:200px;
+		z-index:3;
+	}
+	div#tutorial-loading.hide {
+		display:none;
+	}
 }
 @media screen and (max-width: 1023px) {
 	.mct .page-hide {
@@ -636,15 +675,15 @@ border-bottom-right-radius: 50px;
 		width:auto;
 	}
 	.mct #header h1 span {
-		margin-right:15px;
+		display:inline-block;
+		float:left;
+		margin-right:45px;
+		max-height:36px;
+		overflow:hidden;
 	}
 	.mct #header span 
 	{
 		display:none;
-	}
-	.mct #header h1 span 
-	{
-		display:inline;
 	}
 	.mct #navigation{
 		text-align:left;

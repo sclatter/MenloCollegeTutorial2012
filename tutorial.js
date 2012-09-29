@@ -660,4 +660,6 @@ YUI().use('tutorial', function(Y) {
 			var els = new Y.SectionQuiz(form);
 		});
 		var tmp7 = new Y.ShowMe();
+		//clear loading state
+		Y.one('#tutorial-loading').addClass('hide');
 });
