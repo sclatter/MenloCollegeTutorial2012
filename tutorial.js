@@ -214,16 +214,23 @@ YUI.add('tutorial', function(Y) {
 		var allArticles = Y.Pagination.startSection.all('article'),
 			artLength = allArticles.size(), 
 			myActive = 0, 
-			sectionId = Y.Pagination.startSection.get('id');
+			sectionId = Y.Pagination.startSection.get('id'), 
+			pNext = Y.Pagination.pagination.one('.next'), 
+			pBack = Y.Pagination.pagination.one('.back'),
+			pageIndicator = Y.Pagination.pagination.one('p em'),
+			totalIndicator =  Y.Pagination.pagination.one('p em.total'), 
+			active, 
+			page,
+			currentSubNav = Y.Pagination.subnav.all('ul#sub' + sectionId);
 
 			//activate subnav & turn on subnav for the section
 			Y.Pagination.subnav.removeClass('hide');
 			//hide all ULs, and turn only the appropriate one one
 			Y.Pagination.subnav.all('ul').addClass('hide');
-			Y.Pagination.subnav.all('ul#sub' + sectionId).removeClass('hide');
+			currentSubNav.removeClass('hide');
 			
-			pNext = Y.Pagination.pagination.one('.next'), 
-			pBack = Y.Pagination.pagination.one('.back');
+			
+			
 			if(e && e.target.get('tagName') === 'A') {
 				e.halt();
 				myActive = e.target.getData('gotopage');
@@ -239,8 +246,26 @@ YUI.add('tutorial', function(Y) {
 					allArticles.item(myActive).addClass('active');
 					allArticles.item(i).setAttribute('data-page', i);
 				}
-				var active = Y.Pagination.startSection.one('.active'), 
+				//setup variables for active section and page
+				active = Y.Pagination.startSection.one('.active'), 
 				page = parseInt(active.getData('page'));
+				//setup page indicator
+				pageIndicator.set('innerHTML', page+1);
+				totalIndicator.set('innerHTML', artLength);
+				
+				//light up current section in subnav, if applicable
+				if (currentSubNav.size() > 0){
+					subNavAnchors = currentSubNav.item(0).all('a');
+					for (i = 0, x = subNavAnchors.size(); i < x; i++){
+						var item = subNavAnchors.item(i);
+						if(parseInt(item.getData('gotopage')) === page){
+								subNavAnchors.removeClass('active');
+								item.addClass('active');
+							}
+					}
+				}
+				
+				
 				if (page < artLength - 1) {
 					pNext.removeClass('hide');
 					pNext.setAttribute('data-gotopage', page+1)
@@ -444,6 +469,12 @@ YUI.add('tutorial', function(Y) {
 		@param e is the event object
 		*/
 		reset: function(e) {
+			e.halt();
+			var email = this.email.get('value'),
+				name = this.name.get('value');
+			this.form.reset();
+			this.email.set('value', email);
+			this.name.set('value', name);
 			//hide all hints/prompts
 			this.form.all('span.error').addClass('hide');
 			this.form.all('span.correct').addClass('hide');

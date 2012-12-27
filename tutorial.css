@@ -52,12 +52,16 @@ div#pagination {
 	position:absolute;
 	left:28%;
 	bottom:0;
-	text-align:right;
+	text-align:center;
+	width:200px;
 }
 div#pagination a {
 	display:inline-block;
 	font-weight:bold;
 	margin:0 5px;
+}
+div#pagination p {
+	width:200px;
 }
 div#footer{
   	position:absolute;
@@ -404,7 +408,7 @@ div#footer{
 	list-style-type:none;
 	margin-top:8px;
 	overflow:hidden;
-	padding-top:0;
+	padding:0;
 	width:100%;
 }
 .mct ul.more-info li.sub-info-graphic span {
@@ -419,19 +423,23 @@ div#footer{
 	background-color:#9fbed7;
 	display:inline-block;
 	float:right;
+	height:20px;
 	list-style-position:inside;
-
+	padding:0 0 0 20px;
 	width:50%;
 }
 .mct ul.more-info li.sub-info-graphic ol.hiding {
 	height:0;
 	opacity:0;
 	filter: alpha(opacity = 0);
-	-webkit-transition: opacity .5s linear, height 1s linear;
-    -moz-transition: opacity .5s linear, height 1s linear;
-    -o-transition: opacity .5s linear, height 1s linear;
-    -ms-transition: opacity .5s linear, height 1s linear;    
-    transition: opacity .5s linear, height 1s linear;
+	-webkit-transition: height .5s linear;
+    -moz-transition: height .5s linear;
+    -o-transition: height .5s linear;
+    -ms-transition: height .5s linear;    
+    transition: height .5s linear;
+}
+.mct ul.more-info li.sub-info-graphic ol.hiding li {
+	padding-bottom:5px;
 }
 .mct ul.more-info:hover li.sub-info-graphic ol.hiding {
 	filter: alpha(opacity = 1);
@@ -439,7 +447,7 @@ div#footer{
 	opacity:1;
 }
 .mct li.clear {
-	clear:both;
+	clear:left;
 }
 .mct #subnav {
 	display:inline;
@@ -448,6 +456,13 @@ div#footer{
 	float:right;
 	padding-left:20px;
 	width:230px;
+}
+.mct #subnav a {
+	display:inline-block;
+	width:100%;
+}
+.mct #subnav a.active {
+	border-right:3px solid #9fbed7; 
 }
 .mct #subnav ul {
 	list-style-type:none;
